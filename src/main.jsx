@@ -22,8 +22,10 @@ createRoot(document.getElementById('root')).render(
       theme="light"
       transition={Bounce}
     />
-    <AuthProvider>
+   <div className='font-urbanist'>
+      <AuthProvider>
       <RouterProvider router={router} />
     </AuthProvider>
+   </div>
   </StrictMode>,
 )

@@ -8,14 +8,14 @@ const Navbar = () => {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   return (
-    <nav className="flex justify-self-center items-center justify-between relative  dark:bg-slate-900 bg-white rounded-full px-[10px] py-[8px] w-10/12">
+    <nav className="flex justify-self-center items-center justify-between relative  dark:bg-slate-900 bg-white rounded-full px-[10px] py-[8px] w-11/12 shadow">
       {/* logo */}
       
       <div className="flex">
         <img
         src={logo}
         alt="logo"
-        className="w-[25px]"
+        className="w-[30px] -mr-2.5 -mt-2.5 mb-3 rotate-3"
       />
       <p className="text-3xl font-bold">Duronto Courier</p>
       </div>

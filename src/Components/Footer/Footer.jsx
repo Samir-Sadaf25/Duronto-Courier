@@ -1,51 +1,70 @@
-import { Link } from "react-router";
-
-const Footer = () => {
+// src/components/Footer.jsx
+import React from 'react';
+import {
+  FaLinkedin,
+  FaXing,
+  FaFacebook,
+  FaYoutube,
+} from 'react-icons/fa';
+import logo from '../../../public/logo.png'
+export default function Footer() {
   return (
-    <footer className="bg-base-200 text-base-content mt-10">
-      <div className="container mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Brand */}
-        <div>
-          <h2 className="font-bold text-xl text-primary mb-2">CareerCrafters</h2>
-          <p className="text-sm">
-            Empowering professionals and employers to craft their future through smart job connections.
-          </p>
+    <footer className="bg-black text-white py-12">
+      <div className="container mx-auto px-4 text-center md:text-left">
+        {/* Logo & Tagline */}
+        <div className="mb-8 md:flex md:items-start md:justify-between">
+          <div className="md:w-1/3">
+            <div className='flex'>
+               <img
+                      src={logo}
+                      alt="logo"
+                      className="w-[30px] -mr-2.5 -mt-2.5 mb-3 rotate-3"
+                    />
+              <h1 className="text-3xl font-bold">Duronto Courier</h1>
+            </div>
+            <p className="mt-4 text-sm leading-relaxed">
+              Empowering fast, reliable parcel delivery
+              with real-time tracking and zero hassle.
+              From personal packages to business shipments —
+              we deliver on time, every time.
+            </p>
+          </div>
+
+          {/* Navigation Links */}
+          <div className="mt-8 md:mt-0 md:w-1/3">
+            <ul className="flex flex-wrap justify-center md:justify-end gap-x-6 gap-y-2">
+              {['Services', 'Coverage', 'About Us', 'Pricing', 'Blog', 'Contact'].map((link) => (
+                <li key={link}>
+                  <a
+                    href={`#${link.toLowerCase().replace(/\s+/g, '-')}`}
+                    className="hover:text-gray-400 text-sm font-medium"
+                  >
+                    {link}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
-        {/* Navigation */}
-        <div>
-          <h3 className="font-semibold mb-2">Explore</h3>
-          <ul className="space-y-1 text-sm">
-            <li><Link to="/" className="link link-hover">Home</Link></li>
-            <li><Link to="/jobs" className="link link-hover">All Jobs</Link></li>
-            <li><Link to="/add-jobs" className="link link-hover">Post a Job</Link></li>
-            <li><Link to="/application/me" className="link link-hover">My Applications</Link></li>
-          </ul>
-        </div>
-
-        {/* Connect */}
-        <div>
-          <h3 className="font-semibold mb-2">Connect</h3>
-          <p className="text-sm mb-2">contact@careercrafters.dev</p>
-          <div className="flex gap-4 text-xl">
-            <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="hover:text-primary">
-              <i className="fab fa-linkedin"></i>
+        {/* Social Icons */}
+        <div className="border-t border-gray-700 pt-6">
+          <div className="flex justify-center space-x-6">
+            <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
+              <FaLinkedin className="text-xl hover:text-gray-400" />
             </a>
-            <a href="https://github.com" target="_blank" rel="noreferrer" className="hover:text-primary">
-              <i className="fab fa-github"></i>
+            <a href="https://www.xing.com" target="_blank" rel="noopener noreferrer">
+              <FaXing className="text-xl hover:text-gray-400" />
             </a>
-            <a href="https://twitter.com" target="_blank" rel="noreferrer" className="hover:text-primary">
-              <i className="fab fa-twitter"></i>
+            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
+              <FaFacebook className="text-xl hover:text-gray-400" />
+            </a>
+            <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">
+              <FaYoutube className="text-xl hover:text-gray-400" />
             </a>
           </div>
         </div>
       </div>
-
-      <div className="border-t border-base-300 py-4 text-center text-sm">
-        © {new Date().getFullYear()} CareerCrafters. All rights reserved.
-      </div>
     </footer>
   );
-};
-
-export default Footer;
+}

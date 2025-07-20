@@ -30,8 +30,9 @@ export default function CompanyMarquee() {
             animate={{ x: ['0%', '-50%'] }}
             transition={{
               repeat: Infinity,
-              duration: 4,
+              duration: 15,
               ease: 'linear',
+              
             }}
           >
             {loopedLogos.map((logo, idx) => (
@@ -39,7 +40,7 @@ export default function CompanyMarquee() {
                 <img
                   src={logo.src}
                   alt={logo.alt}
-                  className="h-12 object-contain"
+                  className="h-8 object-contain"
                 />
               </div>
             ))}

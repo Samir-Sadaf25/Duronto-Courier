@@ -3,7 +3,7 @@ import React, { useState } from "react";
 // react icons
 import { IoIosSearch } from "react-icons/io";
 import { CiMenuFries } from "react-icons/ci";
-import logo from '../../../public/logo.png'
+import logo from '../../assets/logo.png'
 const Navbar = () => {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 

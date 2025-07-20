@@ -2,6 +2,7 @@ import React from 'react';
 import Banner from '../Banner/Banner';
 import HowItWorks from '../How It Works/HowItWorks';
 import OurServices from '../Our Services/OurServices';
+import CompanyMarquee from '../Company Marquee/CompanyMarquee';
 
 const Home = () => {
     return (
@@ -14,6 +15,9 @@ const Home = () => {
             </section>
             <section className='w-11/12 mx-auto mb-[100px]'>
                 <OurServices></OurServices>
+            </section>
+            <section>
+                <CompanyMarquee></CompanyMarquee>
             </section>
         </div>
     );

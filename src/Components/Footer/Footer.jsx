@@ -6,7 +6,7 @@ import {
   FaFacebook,
   FaYoutube,
 } from 'react-icons/fa';
-import logo from '../../../public/logo.png'
+import logo from '../../assets/logo.png'
 export default function Footer() {
   return (
     <footer className="bg-black text-white py-12">

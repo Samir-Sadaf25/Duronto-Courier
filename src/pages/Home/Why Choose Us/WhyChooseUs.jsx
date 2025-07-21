@@ -32,7 +32,7 @@ const features = [
 export default function WhyChooseUs() {
   return (
     <section className="bg-white py-16">
-      <div className="max-w-7xl mx-auto px-6 text-center">
+      <div className="w-10/12 mx-auto mx-auto px-6 text-center">
         <h2 className="text-3xl font-bold mb-4">Why Choose Duronto Courier</h2>
         <p className="text-gray-600 mb-12 max-w-2xl mx-auto">
           Discover the advantages that make us the top choice for fast, reliable,

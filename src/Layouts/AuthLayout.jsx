@@ -22,7 +22,7 @@ export default function AuthLayout() {
         </div>
 
         {/* Nested routes (Login / Register) */}
-        <div className="w-full max-w-md">
+        <div className="">
           <Outlet></Outlet>
         </div>
       </div>

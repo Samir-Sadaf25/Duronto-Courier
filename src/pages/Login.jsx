@@ -1,12 +1,13 @@
 import React, { useState, useContext } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
-import { AuthContext } from '../Provider/AuthContext';
+//import { AuthContext } from '../Provider/AuthContext';
 import { GoogleAuthProvider, signInWithPopup, } from 'firebase/auth';
 import { auth } from '../Authentication/firebase.config';
 import AuthProvider from '../Provider/AuthProvider';
 import { Bounce, toast } from 'react-toastify';
 import loginLottie from "../assets/Animation - 1750150347922.json"; // download your preferred login animation
 import Lottie from "lottie-react";
+import { AuthContext } from '../Provider/AuthContext';
 
 const Login = () => {
     const { setUser, signIn } = useContext(AuthContext);
@@ -29,7 +30,7 @@ const Login = () => {
         });
     };
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+       // setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     const handleLogin = (e) => {

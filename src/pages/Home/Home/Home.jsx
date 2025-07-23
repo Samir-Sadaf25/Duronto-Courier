@@ -6,6 +6,7 @@ import CompanyMarquee from "../Company Marquee/CompanyMarquee";
 import WhyChooseUs from "../Why Choose Us/WhyChooseUs";
 import BecomeMerchant from "../Become a Merchant/BecomeMerchant";
 import Testimonials from "../Testimonials/Testimonials";
+import FAQ from "../Frequently asked Questions/FAQ";
 
 const Home = () => {
   return (
@@ -21,6 +22,7 @@ const Home = () => {
       <WhyChooseUs></WhyChooseUs>
       <BecomeMerchant></BecomeMerchant>
       <Testimonials></Testimonials>
+      <FAQ></FAQ>
     </div>
   );
 };

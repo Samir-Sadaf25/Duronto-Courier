@@ -1,10 +1,15 @@
 // src/components/Register.jsx
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 import { FaGoogle } from 'react-icons/fa';
 import { Link } from 'react-router';
 
 export default function Register() {
-
+  
+  const {register,handleSubmit} = useForm();
+  const onSubmit = data =>{
+    console.log(data);
+  }
 
   return (
     <div className="w-full max-w-md mx-auto bg-white p-8 ">
@@ -16,7 +21,7 @@ export default function Register() {
         Sign up for Duronto Courier
       </p>
 
-      <form className="space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Name */}
         <div>
           <label htmlFor="name" className="block mb-1 font-medium text-gray-700">
@@ -26,8 +31,7 @@ export default function Register() {
             id="name"
             type="text"
             required
-       
-            
+             
             className="w-full px-4 py-2 border-b border-gray-300 focus:border-[#CAEB66] focus:outline-none"
             placeholder="Your name"
           />
@@ -42,7 +46,7 @@ export default function Register() {
             id="email"
             type="email"
             required
-           
+           {...register("email")}
             
             className="w-full px-4 py-2 border-b border-gray-300 focus:border-[#CAEB66] focus:outline-none"
             placeholder="you@example.com"
@@ -59,27 +63,13 @@ export default function Register() {
             type="password"
             required
             
-    
+            {...register("password",{minLength:6})}    
             className="w-full px-4 py-2 border-b border-gray-300 focus:border-[#CAEB66] focus:outline-none"
             placeholder="••••••••"
           />
         </div>
 
-        {/* Confirm Password */}
-        <div>
-          <label htmlFor="confirm" className="block mb-1 font-medium text-gray-700">
-            Confirm Password
-          </label>
-          <input
-            id="confirm"
-            type="password"
-            required
-        
-            className="w-full px-4 py-2 border-b border-gray-300 focus:border-[#CAEB66] focus:outline-none"
-            placeholder="••••••••"
-          />
-        </div>
-
+       
         {/* Register Button */}
         <button
           type="submit"

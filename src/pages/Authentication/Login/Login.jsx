@@ -2,11 +2,13 @@
 import React from 'react';
 import { FaGoogle } from 'react-icons/fa';
 import { Link } from 'react-router';
-
+import { useForm } from "react-hook-form"
 export default function Login() {
  
-
-  
+   const {register,handleSubmit} = useForm();
+   const onSubmit = data =>{
+     console.log(data);
+   }
 
   return (
     <div className="w-full max-w-md  mx-auto bg-white  ">
@@ -18,7 +20,7 @@ export default function Login() {
         Login with Duronto Courier
       </p>
 
-      <form  className="space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)}  className="space-y-6">
         {/* Email */}
         <div>
           <label htmlFor="email" className="block mb-1 font-medium text-gray-700">
@@ -28,7 +30,7 @@ export default function Login() {
             id="email"
             type="email"
             required
-          
+            {...register("email")}
             className="w-full px-4 py-2 border-b border-gray-300 focus:border-[#CAEB66] focus:outline-none"
             placeholder="you@example.com"
           />
@@ -43,7 +45,7 @@ export default function Login() {
             id="password"
             type="password"
             required
-            
+            {...register("password")}
             className="w-full px-4 py-2 border-b border-gray-300 focus:border-[#CAEB66] focus:outline-none"
             placeholder="••••••••"
           />

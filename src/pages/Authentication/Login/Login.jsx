@@ -1,14 +1,67 @@
 // src/components/Login.jsx
-import React from 'react';
-import { FaGoogle } from 'react-icons/fa';
-import { Link } from 'react-router';
-import { useForm } from "react-hook-form"
+import React, { use, useState } from "react";
+import { FaGoogle } from "react-icons/fa";
+import { Link, useLocation, useNavigate } from "react-router";
+import { useForm } from "react-hook-form";
+import { AuthContext } from "../../../Contexts & Providers/AuthContext & Provider/AuthContext";
+import { GoogleAuthProvider } from "firebase/auth";
+import { Bounce, toast } from "react-toastify";
 export default function Login() {
- 
-   const {register,handleSubmit} = useForm();
-   const onSubmit = data =>{
-     console.log(data);
-   }
+  const { setUser, signIn, signInWithGoogle } = use(AuthContext);
+  const location = useLocation();
+  const from = location.state || "/";
+  const navigate = useNavigate();
+  const [errorMsg, setError] = useState("");
+
+  const notify = () => {
+    toast.success("Account Login Successfully", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
+  };
+  // const handleChange = (e) => {
+  //     setFormData({ ...formData, [e.target.name]: e.target.value });
+  // };
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+  };
+  const handleGoogleLogin = () => {
+    signInWithGoogle()
+      .then((result) => {
+        setUser(result.user);
+        notify();
+        navigate(from);
+      })
+      .catch((error) => {
+        const errorMessge = error.message;
+        setError(errorMessge);
+      });
+  };
+
+  const { register, handleSubmit } = useForm();
+  const onSubmit = (data) => {
+    const email = data.email;
+    const password = data.password;
+    setError("");
+    signIn(email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        notify();
+        navigate(from);
+      })
+      .catch((error) => {
+        setError(error.code);
+      });
+  };
 
   return (
     <div className="w-full max-w-md  mx-auto bg-white  ">
@@ -20,10 +73,13 @@ export default function Login() {
         Login with Duronto Courier
       </p>
 
-      <form onSubmit={handleSubmit(onSubmit)}  className="space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Email */}
         <div>
-          <label htmlFor="email" className="block mb-1 font-medium text-gray-700">
+          <label
+            htmlFor="email"
+            className="block mb-1 font-medium text-gray-700"
+          >
             Email
           </label>
           <input
@@ -38,7 +94,10 @@ export default function Login() {
 
         {/* Password */}
         <div>
-          <label htmlFor="password" className="block mb-1 font-medium text-gray-700">
+          <label
+            htmlFor="password"
+            className="block mb-1 font-medium text-gray-700"
+          >
             Password
           </label>
           <input
@@ -53,7 +112,10 @@ export default function Login() {
 
         {/* Forgot Password */}
         <div className="text-right">
-          <Link to="/forgot-password" className="text-sm text-[#03373D] hover:underline">
+          <Link
+            to="/forgot-password"
+            className="text-sm text-[#03373D] hover:underline"
+          >
             Forget Password?
           </Link>
         </div>
@@ -76,17 +138,25 @@ export default function Login() {
         {/* Google Login */}
         <button
           type="button"
+          onClick={handleGoogleLogin}
           className="w-full flex items-center justify-center gap-2 border border-gray-300 py-2 rounded-lg hover:bg-gray-100 transition"
         >
-          <img src="https://img.icons8.com/?size=100&id=V5cGWnc9R4xj&format=png&color=000000" alt="" className='w-5' />
+          <img
+            src="https://img.icons8.com/?size=100&id=V5cGWnc9R4xj&format=png&color=000000"
+            alt=""
+            className="w-5"
+          />
           <span className="font-medium text-gray-700">Login with Google</span>
         </button>
       </form>
 
       {/* Register Link */}
       <p className="mt-6 text-center text-gray-600">
-        Don&apos;t have an account?{' '}
-        <Link to="/register" className="text-[#03373D] font-medium hover:underline">
+        Don&apos;t have an account?{" "}
+        <Link
+          to="/register"
+          className="text-[#03373D] font-medium hover:underline"
+        >
           Register
         </Link>
       </p>

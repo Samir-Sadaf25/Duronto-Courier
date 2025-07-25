@@ -3,23 +3,24 @@ import React, { useState } from "react";
 // react icons
 import { IoIosSearch } from "react-icons/io";
 import { CiMenuFries } from "react-icons/ci";
-import logo from '../../assets/logo.png'
+import logo from "../../assets/logo.png";
+import { Link } from "react-router";
 const Navbar = () => {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   return (
     <nav className="flex justify-self-center items-center justify-between relative  dark:bg-slate-900 bg-white rounded-full px-[10px] py-[8px] w-11/12 shadow mt-[20px]">
       {/* logo */}
-      
+
       <div className="flex">
         <img
-        src={logo}
-        alt="logo"
-        className="w-[30px] -mr-2.5 -mt-2.5 mb-3 rotate-3"
-      />
-      <p className="text-3xl font-bold">Duronto Courier</p>
+          src={logo}
+          alt="logo"
+          className="w-[30px] -mr-2.5 -mt-2.5 mb-3 rotate-3"
+        />
+        <p className="text-3xl font-bold">Duronto Courier</p>
       </div>
-      
+
       {/* nav links */}
       <ul className="items-center gap-[20px] text-[1rem] text-[#424242] md:flex hidden">
         <li className="before:w-0 hover:before:w-full before:bg-[#CAEB66] before:h-[2px] before:transition-all before:duration-300 before:absolute relative before:rounded-full before:bottom-[-2px] dark:text-[#abc2d3] hover:text-[#caeb66] transition-all duration-300 before:left-0 cursor-pointer capitalize">
@@ -77,9 +78,11 @@ const Navbar = () => {
             Services
           </li>
 
-          <li className="before:w-0 hover:before:w-full before:bg-[#CAEB66] before:h-[2px] before:transition-all before:duration-300 before:absolute relative before:rounded-full before:bottom-[-2px] dark:text-[#abc2d3] hover:text-[#caeb66] transition-all duration-300 before:left-0 cursor-pointer capitalize">
-            Coverage
-          </li>
+          <Link to={"/coverage"}>
+            <li className="before:w-0 hover:before:w-full before:bg-[#CAEB66] before:h-[2px] before:transition-all before:duration-300 before:absolute relative before:rounded-full before:bottom-[-2px] dark:text-[#abc2d3] hover:text-[#caeb66] transition-all duration-300 before:left-0 cursor-pointer capitalize">
+              Coverage
+            </li>
+          </Link>
 
           <li className="before:w-0 hover:before:w-full before:bg-[#CAEB66] before:h-[2px] before:transition-all before:duration-300 before:absolute relative before:rounded-full before:bottom-[-2px] dark:text-[#abc2d3] hover:text-[#caeb66] transition-all duration-300 before:left-0 cursor-pointer capitalize">
             About Us

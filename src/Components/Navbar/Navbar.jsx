@@ -28,18 +28,20 @@ const Navbar = () => {
         </li>
 
         <Link to={"/coverage"}>
-        <li className="before:w-0 hover:before:w-full before:bg-[#CAEB66] before:h-[2px] before:transition-all before:duration-300 before:absolute relative before:rounded-full before:bottom-[-2px] dark:text-[#abc2d3] hover:text-[#caeb66] transition-all duration-300 before:left-0 cursor-pointer capitalize">
-          Coverage
-        </li>
+          <li className="before:w-0 hover:before:w-full before:bg-[#CAEB66] before:h-[2px] before:transition-all before:duration-300 before:absolute relative before:rounded-full before:bottom-[-2px] dark:text-[#abc2d3] hover:text-[#caeb66] transition-all duration-300 before:left-0 cursor-pointer capitalize">
+            Coverage
+          </li>
         </Link>
 
         <li className="before:w-0 hover:before:w-full before:bg-[#CAEB66] before:h-[2px] before:transition-all before:duration-300 before:absolute relative before:rounded-full before:bottom-[-2px] dark:text-[#abc2d3] hover:text-[#caeb66] transition-all duration-300 before:left-0 cursor-pointer capitalize">
           About Us
         </li>
 
-        <li className="before:w-0 hover:before:w-full before:bg-[#CAEB66] before:h-[2px] before:transition-all before:duration-300 before:absolute relative before:rounded-full before:bottom-[-2px] dark:text-[#abc2d3] hover:text-[#caeb66] transition-all duration-300 before:left-0 cursor-pointer capitalize">
-          Pricing
-        </li>
+        <Link to={"/add-parcel"}>
+          <li className="before:w-0 hover:before:w-full before:bg-[#CAEB66] before:h-[2px] before:transition-all before:duration-300 before:absolute relative before:rounded-full before:bottom-[-2px] dark:text-[#abc2d3] hover:text-[#caeb66] transition-all duration-300 before:left-0 cursor-pointer capitalize">
+            Pricing
+          </li>
+        </Link>
         <li className="before:w-0 hover:before:w-full before:bg-[#CAEB66] before:h-[2px] before:transition-all before:duration-300 before:absolute relative before:rounded-full before:bottom-[-2px] dark:text-[#abc2d3] hover:text-[#caeb66] transition-all duration-300 before:left-0 cursor-pointer capitalize">
           Be a Rider
         </li>
@@ -47,12 +49,16 @@ const Navbar = () => {
 
       {/* action buttons */}
       <div className="items-center gap-[10px] flex">
-        <button className="py-[7px] text-[1rem] px-[16px] dark:text-[#abc2d3] rounded-full capitalize hover:text-[#caeb66] transition-all duration-300 sm:flex hidden">
-          Sign in
-        </button>
-        <button className="py-[7px] text-[1rem] px-[16px] rounded-full capitalize text-gray-600  bg-[#CAEB66] transition-all duration-300 sm:flex hidden">
-          Sign up
-        </button>
+        <Link to={"/login"}>
+          <button className="py-[7px] text-[1rem] px-[16px] dark:text-[#abc2d3] rounded-full capitalize hover:text-[#caeb66] transition-all duration-300 sm:flex hidden">
+            Sign in
+          </button>
+        </Link>
+        <Link to={"/register"}>
+          <button className="py-[7px] text-[1rem] px-[16px] rounded-full capitalize text-gray-600  bg-[#CAEB66] transition-all duration-300 sm:flex hidden">
+            Sign up
+          </button>
+        </Link>
 
         <CiMenuFries
           className="text-[1.8rem] dark:text-[#abc2d3] mr-1 text-[#424242]c cursor-pointer md:hidden flex"
@@ -90,9 +96,11 @@ const Navbar = () => {
             About Us
           </li>
 
-          <li className="before:w-0 hover:before:w-full before:bg-[#CAEB66] before:h-[2px] before:transition-all before:duration-300 before:absolute relative before:rounded-full before:bottom-[-2px] dark:text-[#abc2d3] hover:text-[#caeb66] transition-all duration-300 before:left-0 cursor-pointer capitalize">
-            Pricing
-          </li>
+          <Link to={"/add-parcel"}>
+            <li className="before:w-0 hover:before:w-full before:bg-[#CAEB66] before:h-[2px] before:transition-all before:duration-300 before:absolute relative before:rounded-full before:bottom-[-2px] dark:text-[#abc2d3] hover:text-[#caeb66] transition-all duration-300 before:left-0 cursor-pointer capitalize">
+              Pricing
+            </li>
+          </Link>
           <li className="before:w-0 hover:before:w-full before:bg-[#CAEB66] before:h-[2px] before:transition-all before:duration-300 before:absolute relative before:rounded-full before:bottom-[-2px] dark:text-[#abc2d3] hover:text-[#caeb66] transition-all duration-300 before:left-0 cursor-pointer capitalize">
             Be a Rider
           </li>

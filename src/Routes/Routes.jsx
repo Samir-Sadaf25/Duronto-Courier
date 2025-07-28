@@ -7,6 +7,7 @@ import AuthLayout from "../Layouts/AuthLayout";
 import Login from "../pages/Authentication/Login/Login";
 import Register from "../pages/Authentication/Register/Register";
 import Coverage from "../pages/Covarage/Coverage";
+import BookingParcel from "../pages/Booking Parcel/BookingParcel";
 
 export const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ export const router = createBrowserRouter([
       {
         path:'coverage',
         Component:Coverage
+      },
+      {
+        path:'/add-parcel',
+        Component:BookingParcel
       },
     ],
   },

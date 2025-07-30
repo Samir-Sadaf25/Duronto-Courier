@@ -1,8 +1,12 @@
 // src/pages/BookingParcel.jsx
-import React from "react";
+import React, { useContext } from "react";
+// Import AuthContext for current user
 import { useForm, Controller } from "react-hook-form";
 import Swal from "sweetalert2";
 import districts from "../Covarage/districts.json";
+import { AuthContext } from "../../Contexts & Providers/AuthContext & Provider/AuthContext";
+import UseAxiosSecure from "../../Hooks/UseAxiosSecure";
+import axios from "axios";
 
 // Helper: get unique regions
 const regionOptions = Array.from(new Set(districts.map((d) => d.region)));
@@ -354,7 +358,10 @@ const ReceiverInfo = ({ control, watch }) => {
   );
 };
 
-export default function BookingParcel() {
+function BookingParcel() {
+  // Get user from AuthContext
+  const { user } = useContext(AuthContext);
+  const axiosSecure = UseAxiosSecure();
   const {
     handleSubmit,
     control,
@@ -393,7 +400,7 @@ export default function BookingParcel() {
     senderRegion,
     receiverRegion,
   });
-
+  
   // SweetAlert2 confirmation
   const onSubmit = async (data) => {
     const pricing = calculateCost({
@@ -422,18 +429,54 @@ export default function BookingParcel() {
       cancelButtonText: "Cancel",
     });
     if (result.isConfirmed) {
-   
+      // Generate unique trackingId (timestamp-based)
+      const trackingId = `DURONTO-${Date.now()}`;
+      // Build payload with extra fields
+      const payload = {
+        parcelType: data.parcelType,
+        title: data.title,
+        weight: data.parcelType === "document" ? null : data.weight,
+        sender: {
+          name: data.senderName, // manually input sender name
+          contact: data.senderContact,
+          region: data.senderRegion,
+          center: data.senderCenter,
+          address: data.senderAddress,
+          pickupInst: data.pickupInst,
+          user_email: user?.email || "", // store user email from AuthContext
+        },
+        receiver: {
+          name: data.receiverName,
+          contact: data.receiverContact,
+          region: data.receiverRegion,
+          center: data.receiverCenter,
+          address: data.receiverAddress,
+          deliveryInst: data.deliveryInst,
+        },
+        cost: pricing.total,
+        creation_date: new Date().toISOString(),
+        deliveryStatus: "pending",
+        paymentStatus: "unpaid",
+        trackingId,
+      };
+      // TODO: POST to backend here (use payload)
+      axios.post("http://localhost:3000/parcels",payload).then(res =>{
+        console.log(res.data);
+        if (res.data.insertedId){
+          Swal.fire({
+            title: "Booking Confirmed!",
+            text: `Your parcel has been booked successfully. Tracking ID: ${trackingId}`,
+            icon: "success",
+            confirmButtonText: "OK",
+          });
+          reset(); // Reset form after successful booking
+        }
+      })
       
-      // TODO: POST to backend here
-      await Swal.fire({
-        title: "Booked!",
-        text: "Your parcel has been booked.",
-        icon: "success",
-      });
-      reset();
+      
     }
+    
   };
-
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg my-12">
       <h1 className="text-2xl font-bold mb-2">Add Parcel</h1>
@@ -471,3 +514,5 @@ export default function BookingParcel() {
     </div>
   );
 }
+
+export default BookingParcel;

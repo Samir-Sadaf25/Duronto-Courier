@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 // react icons
 import { IoIosSearch } from "react-icons/io";
 import { CiMenuFries } from "react-icons/ci";
 import logo from "../../assets/logo.png";
 import { Link } from "react-router";
+import { AuthContext } from "../../Contexts & Providers/AuthContext & Provider/AuthContext";
 const Navbar = () => {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
-
+  const { user, logOut } = useContext(AuthContext);
   return (
     <nav className="flex justify-self-center items-center justify-between relative  dark:bg-slate-900 bg-white rounded-full px-[10px] py-[8px] w-11/12 shadow mt-[20px]">
       {/* logo */}
@@ -45,20 +46,42 @@ const Navbar = () => {
         <li className="before:w-0 hover:before:w-full before:bg-[#CAEB66] before:h-[2px] before:transition-all before:duration-300 before:absolute relative before:rounded-full before:bottom-[-2px] dark:text-[#abc2d3] hover:text-[#caeb66] transition-all duration-300 before:left-0 cursor-pointer capitalize">
           Be a Rider
         </li>
+        {user ? (
+          <Link to={"/dashboard"}>
+            <li className="before:w-0 hover:before:w-full before:bg-[#CAEB66] before:h-[2px] before:transition-all before:duration-300 before:absolute relative before:rounded-full before:bottom-[-2px] dark:text-[#abc2d3] hover:text-[#caeb66] transition-all duration-300 before:left-0 cursor-pointer capitalize">
+              dashboard
+            </li>
+          </Link>
+        ) : (
+          ""
+        )}
       </ul>
 
       {/* action buttons */}
       <div className="items-center gap-[10px] flex">
-        <Link to={"/login"}>
-          <button className="py-[7px] text-[1rem] px-[16px] dark:text-[#abc2d3] rounded-full capitalize hover:text-[#caeb66] transition-all duration-300 sm:flex hidden">
-            Sign in
-          </button>
-        </Link>
-        <Link to={"/register"}>
-          <button className="py-[7px] text-[1rem] px-[16px] rounded-full capitalize text-gray-600  bg-[#CAEB66] transition-all duration-300 sm:flex hidden">
-            Sign up
-          </button>
-        </Link>
+        {user ? (
+          <>
+            <button
+              onClick={logOut}
+              className="bg-[#CAEB66] dark:bg-[#abc2d3] text-[#424242] dark:text-slate-900 px-4 py-1 rounded-full hover:bg-[#3B9DF8] hover:text-white transition-all duration-300"
+            >
+              Log Out
+            </button>
+          </>
+        ) : (
+          <>
+            <Link to={"/login"}>
+              <button className="py-[7px] text-[1rem] px-[16px] dark:text-[#abc2d3] rounded-full capitalize hover:text-[#caeb66] transition-all duration-300 sm:flex hidden">
+                Sign in
+              </button>
+            </Link>
+            <Link to={"/register"}>
+              <button className="py-[7px] text-[1rem] px-[16px] rounded-full capitalize text-gray-600  bg-[#CAEB66] transition-all duration-300 sm:flex hidden">
+                Sign up
+              </button>
+            </Link>
+          </>
+        )}
 
         <CiMenuFries
           className="text-[1.8rem] dark:text-[#abc2d3] mr-1 text-[#424242]c cursor-pointer md:hidden flex"

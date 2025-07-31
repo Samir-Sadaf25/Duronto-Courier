@@ -8,6 +8,8 @@ import Login from "../pages/Authentication/Login/Login";
 import Register from "../pages/Authentication/Register/Register";
 import Coverage from "../pages/Covarage/Coverage";
 import BookingParcel from "../pages/Booking Parcel/BookingParcel";
+import DashBoardLayout from "../Layouts/DashBoardLayout";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -28,6 +30,7 @@ export const router = createBrowserRouter([
       },
     ],
   },
+  // auth routes
   {
     path: "/",
     Component: AuthLayout,
@@ -41,5 +44,10 @@ export const router = createBrowserRouter([
         Component: Register,
       },
     ],
+  },
+  //dashboard routes
+  {
+      path: "/dashboard",
+      Component: DashBoardLayout,
   },
 ]);

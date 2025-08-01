@@ -10,6 +10,7 @@ import Coverage from "../pages/Covarage/Coverage";
 import BookingParcel from "../pages/Booking Parcel/BookingParcel";
 import DashBoardLayout from "../Layouts/DashBoardLayout";
 import PrivateRoute from "./PrivateRoute";
+import MyParcels from "../pages/Dashboard/My parcel/MyParcels";
 
 export const router = createBrowserRouter([
   {
@@ -49,5 +50,11 @@ export const router = createBrowserRouter([
   {
       path: "/dashboard",
       Component: DashBoardLayout,
+      children:[
+         {
+            index: true,
+            Component:MyParcels,
+         },
+      ]
   },
 ]);

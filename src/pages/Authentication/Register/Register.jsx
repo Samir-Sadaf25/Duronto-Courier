@@ -46,6 +46,7 @@ export default function Register() {
         
         const user = result.user;
         setUser(result.user);
+        navigate("/login")
         // updateUser({ displayName: name, photoURL: photo })
         //     .then(() => {
         //         setUser({ ...user, displayName: name, photoURL: photo });
@@ -66,6 +67,7 @@ export default function Register() {
     signInWithGoogle()
       .then((result) => {
         setUser(result.user);
+        navigate("/")
       })
       .catch((error) => {
         const errorMessge = error.message;

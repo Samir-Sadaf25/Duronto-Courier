@@ -9,7 +9,7 @@ import { Bounce, toast } from "react-toastify";
 export default function Login() {
   const { setUser, signIn, signInWithGoogle } = use(AuthContext);
   const location = useLocation();
-  const from = location.state || "/";
+  const from = location.state?.from || "/";
   const navigate = useNavigate();
   const [errorMsg, setError] = useState("");
 
@@ -30,9 +30,7 @@ export default function Login() {
   //     setFormData({ ...formData, [e.target.name]: e.target.value });
   // };
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-  };
+ 
   const handleGoogleLogin = () => {
     signInWithGoogle()
       .then((result) => {

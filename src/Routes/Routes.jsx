@@ -26,8 +26,8 @@ export const router = createBrowserRouter([
         Component:Coverage
       },
       {
-        path:'/add-parcel',
-        Component:BookingParcel
+        path:'add-parcel',
+        element:<PrivateRoute><BookingParcel></BookingParcel></PrivateRoute>
       },
     ],
   },
@@ -49,7 +49,7 @@ export const router = createBrowserRouter([
   //dashboard routes
   {
       path: "/dashboard",
-      Component: DashBoardLayout,
+      element: <PrivateRoute><DashBoardLayout></DashBoardLayout></PrivateRoute>,
       children:[
          {
             index: true,

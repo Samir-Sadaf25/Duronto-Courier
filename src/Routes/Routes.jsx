@@ -11,6 +11,7 @@ import BookingParcel from "../pages/Booking Parcel/BookingParcel";
 import DashBoardLayout from "../Layouts/DashBoardLayout";
 import PrivateRoute from "./PrivateRoute";
 import MyParcels from "../pages/Dashboard/My parcel/MyParcels";
+import Payment from "../pages/Dashboard/Payment/Payment";
 
 export const router = createBrowserRouter([
   {
@@ -54,6 +55,10 @@ export const router = createBrowserRouter([
          {
             index: true,
             Component:MyParcels,
+         },
+         {
+            path: 'payment/:id',
+            Component:Payment,
          },
       ]
   },

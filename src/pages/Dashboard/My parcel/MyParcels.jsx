@@ -3,14 +3,20 @@ import React, { useContext } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AuthContext } from "../../../Contexts & Providers/AuthContext & Provider/AuthContext";
 import useAxiosSecure from "../../../Hooks/UseAxiosSecure";
+import { useNavigate } from "react-router";
 
 export default function MyParcels() {
   const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
   const qc = useQueryClient();
-
+  const navigate = useNavigate();
   // 1) Fetch my parcels
-  const { data: parcels = [], isLoading, isError, error } = useQuery({
+  const {
+    data: parcels = [],
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
     queryKey: ["my-parcels", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/parcels?user_email=${user.email}`);
@@ -21,19 +27,16 @@ export default function MyParcels() {
 
   // 2) Cancel (DELETE) mutation
   const deleteMutation = useMutation({
-  mutationFn: (id) => axiosSecure.delete(`/parcels/${id}`),
-  onSuccess: () => {
-    qc.invalidateQueries(["my-parcels", user.email]);
-  },
-});
-
-const updateMutation = useMutation({
-  mutationFn: ({ id, updates }) =>
-    axiosSecure.patch(`/parcels/${id}`, updates),
-  onSuccess: () => {
-    qc.invalidateQueries(["my-parcels", user.email]);
-  },
-});
+    mutationFn: (id) => axiosSecure.delete(`/parcels/${id}`),
+    onSuccess: () => {
+      qc.invalidateQueries(["my-parcels", user.email]);
+    },
+  });
+  const handlePay = (id) => {
+    console.log("Proceed to payment for", id);
+    navigate(`/dashboard/payment/${id}`);
+  };
+  
 
   // Loading / error / auth states
   if (!user) {
@@ -47,7 +50,7 @@ const updateMutation = useMutation({
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-4">
+    <div className="max-w-3xl mx-auto space-y-2 text-center">
       <h1 className="text-2xl font-bold">My Booked Parcels</h1>
 
       {parcels.length === 0 ? (
@@ -63,9 +66,9 @@ const updateMutation = useMutation({
                   "Weight",
                   "Region",
                   "Center",
-                  "Pickup Inst.",
+                  "Cost",
+                  "Delivary",
                   "Payment",
-                  "Delivery",
                   "Actions",
                 ].map((h) => (
                   <th key={h} className="p-2 border text-left">
@@ -82,35 +85,9 @@ const updateMutation = useMutation({
                   <td className="p-2 border">{p.weight ?? "—"}</td>
                   <td className="p-2 border">{p.sender.region}</td>
                   <td className="p-2 border">{p.sender.center}</td>
-                  <td className="p-2 border">{p.sender.pickupInst}</td>
+                  <td className="p-2 border">{p.cost}</td>
 
-                  {/* Payment Status */}
-                  <td className="p-2 border">
-                    <span
-                      className={`px-2 py-1 rounded-full text-sm ${
-                        p.paymentStatus === "paid"
-                          ? "bg-green-200 text-green-800"
-                          : "bg-yellow-200 text-yellow-800"
-                      }`}
-                    >
-                      {p.paymentStatus || "unpaid"}
-                    </span>
-                    {p.paymentStatus !== "paid" && (
-                      <button
-                        disabled={updateMutation.isLoading}
-                        onClick={() =>
-                          updateMutation.mutate({
-                            id: p._id,
-                            updates: { paymentStatus: "paid" },
-                          })
-                        }
-                        className="ml-2 text-blue-600 hover:underline text-sm"
-                      >
-                        Pay
-                      </button>
-                    )}
-                  </td>
-
+                  
                   {/* Delivery Status */}
                   <td className="p-2 border">
                     <span
@@ -126,12 +103,21 @@ const updateMutation = useMutation({
 
                   {/* Actions */}
                   <td className="p-2 border">
+
                     <button
+                      onClick={() => handlePay(p._id)}
+                      className="btn  btn-primary bg-green-300 text-black"
+                    >
+                      Pay
+                    </button>
+                  </td>
+                  <td className="p-2 border">
+                     <button 
                       disabled={deleteMutation.isLoading}
                       onClick={() => deleteMutation.mutate(p._id)}
-                      className="text-red-600 hover:underline text-sm"
+                      className="btn-warning btn"
                     >
-                      Cancel
+                      Cancel Delivary
                     </button>
                   </td>
                 </tr>

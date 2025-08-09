@@ -99,7 +99,7 @@ export default function MyParcels() {
                   </td>
 
                   {/* Actions */}
-                  <div className="">
+                  
                     <td className="p-2 border">
                       <button
                         onClick={() => handlePay(p._id)}
@@ -117,7 +117,7 @@ export default function MyParcels() {
                         Cancel Delivary
                       </button>
                     </td>
-                  </div>
+                  
                 </tr>
               ))}
             </tbody>

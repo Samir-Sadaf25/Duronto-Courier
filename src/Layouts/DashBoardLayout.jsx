@@ -7,6 +7,7 @@ import {
   FiUsers,
   FiLogOut,
 } from 'react-icons/fi';
+import { FaHistory } from 'react-icons/fa';
 
 export default function DashBoardLayout() {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,7 +15,7 @@ export default function DashBoardLayout() {
   const navItems = [
     { name: 'Home', to: '/', icon: <FiHome /> },
     { name: 'Bookings', to: '/dashboard/bookings', icon: <FiPackage /> },
-    { name: 'Parcels', to: '/dashboard/parcels', icon: <FiPackage /> },
+    { name: 'Payments', to: '/dashboard/payments', icon: <FaHistory /> },
     { name: 'Users', to: '/dashboard/users', icon: <FiUsers /> },
   ];
 

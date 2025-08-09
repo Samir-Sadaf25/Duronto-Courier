@@ -36,7 +36,6 @@ export default function MyParcels() {
     console.log("Proceed to payment for", id);
     navigate(`/dashboard/payment/${id}`);
   };
-  
 
   // Loading / error / auth states
   if (!user) {
@@ -64,11 +63,10 @@ export default function MyParcels() {
                   "Title",
                   "Type",
                   "Weight",
-                  "Region",
-                  "Center",
+                  "From",
+                  "To",
                   "Cost",
-                  "Delivary",
-                  "Payment",
+                  "payment status",
                   "Actions",
                 ].map((h) => (
                   <th key={h} className="p-2 border text-left">
@@ -77,49 +75,49 @@ export default function MyParcels() {
                 ))}
               </tr>
             </thead>
-            <tbody>
+            <tbody >
               {parcels.map((p) => (
                 <tr key={p._id} className="hover:bg-gray-50">
                   <td className="p-2 border">{p.title}</td>
                   <td className="p-2 border">{p.parcelType}</td>
                   <td className="p-2 border">{p.weight ?? "—"}</td>
                   <td className="p-2 border">{p.sender.region}</td>
-                  <td className="p-2 border">{p.sender.center}</td>
+                  <td className="p-2 border">{p.receiver.region}</td>
                   <td className="p-2 border">{p.cost}</td>
 
-                  
-                  {/* Delivery Status */}
+                  {/* payment Status */}
                   <td className="p-2 border">
                     <span
                       className={`px-2 py-1 rounded-full text-sm ${
-                        p.deliveryStatus === "delivered"
+                        p.paymentStatus === "paid"
                           ? "bg-green-200 text-green-800"
                           : "bg-yellow-200 text-yellow-800"
                       }`}
                     >
-                      {p.deliveryStatus || "pending"}
+                      {p.paymentStatus || "unpaid"}
                     </span>
                   </td>
 
                   {/* Actions */}
-                  <td className="p-2 border">
-
-                    <button
-                      onClick={() => handlePay(p._id)}
-                      className="btn  btn-primary bg-green-300 text-black"
-                    >
-                      Pay
-                    </button>
-                  </td>
-                  <td className="p-2 border">
-                     <button 
-                      disabled={deleteMutation.isLoading}
-                      onClick={() => deleteMutation.mutate(p._id)}
-                      className="btn-warning btn"
-                    >
-                      Cancel Delivary
-                    </button>
-                  </td>
+                  <div className="">
+                    <td className="p-2 border">
+                      <button
+                        onClick={() => handlePay(p._id)}
+                        className="btn  btn-primary bg-green-300 text-black"
+                      >
+                        Pay
+                      </button>
+                    </td>
+                    <td className="p-2 border">
+                      <button
+                        disabled={deleteMutation.isLoading}
+                        onClick={() => deleteMutation.mutate(p._id)}
+                        className="btn-warning btn"
+                      >
+                        Cancel Delivary
+                      </button>
+                    </td>
+                  </div>
                 </tr>
               ))}
             </tbody>

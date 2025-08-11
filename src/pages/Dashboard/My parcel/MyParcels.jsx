@@ -75,9 +75,9 @@ export default function MyParcels() {
                 ))}
               </tr>
             </thead>
-            <tbody >
+            <tbody  >
               {parcels.map((p) => (
-                <tr key={p._id} className="hover:bg-gray-50">
+                <tr key={p._id} className="hover:bg-gray-50 ">
                   <td className="p-2 border">{p.title}</td>
                   <td className="p-2 border">{p.parcelType}</td>
                   <td className="p-2 border">{p.weight ?? "—"}</td>
@@ -100,15 +100,16 @@ export default function MyParcels() {
 
                   {/* Actions */}
                   
-                    <td className="p-2 border">
-                      <button
+                    <td className="p-2 border flex gap-2" >
+                     <td >
+                       <button
                         onClick={() => handlePay(p._id)}
                         className="btn  btn-primary bg-green-300 text-black"
                       >
                         Pay
                       </button>
-                    </td>
-                    <td className="p-2 border">
+                     </td>
+                       <td className=" ">
                       <button
                         disabled={deleteMutation.isLoading}
                         onClick={() => deleteMutation.mutate(p._id)}
@@ -117,6 +118,16 @@ export default function MyParcels() {
                         Cancel Delivary
                       </button>
                     </td>
+                    </td>
+                    {/* <td className="p-2 border">
+                      <button
+                        disabled={deleteMutation.isLoading}
+                        onClick={() => deleteMutation.mutate(p._id)}
+                        className="btn-warning btn"
+                      >
+                        Cancel Delivary
+                      </button>
+                    </td> */}
                   
                 </tr>
               ))}

@@ -107,7 +107,7 @@ const CheckoutForm = () => {
         timer: 2000,
       });
 
-      navigate("/dashboard");
+      navigate("/dashboard/payments");
     }
   };
 

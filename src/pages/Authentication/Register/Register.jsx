@@ -7,9 +7,10 @@ import { Link, useNavigate } from "react-router";
 import axios from "axios";
 import { AuthContext } from "../../../Contexts & Providers/AuthContext & Provider/AuthContext";
 import UseAxiosSecure from "../../../Hooks/UseAxiosSecure";
+import Swal from "sweetalert2";
 
 export default function Register() {
-  const { createUser, updateUserProfile, setUser, signInWithGoogle,  } =
+  const { createUser, updateUserProfile, setUser, signInWithGoogle } =
     useContext(AuthContext);
   const navigate = useNavigate();
   const [error, setError] = useState("");
@@ -32,21 +33,16 @@ export default function Register() {
     const password = data.password;
     const name = data.name;
 
-    createUser(email, password).then((result) => {
+    createUser(email, password).then(async (result) => {
       const user = result.user;
-       const userInfo = {
-            email,
-            name,
-            role: 'user',
-            creationTime: result.user?.metadata?.creationTime,
-            lastSignInTime: result.user?.metadata?.lastSignInTime
-        }
-       axiosSecure.post('/users',userInfo)
-        .then((res) => {
-        
-        }).catch(err =>{
-           
-        })
+      const userInfo = {
+        email,
+        name,
+        creationTime: result.user?.metadata?.creationTime,
+        lastSignInTime: result.user?.metadata?.lastSignInTime,
+      };
+      const userRes = await axiosSecure.post("/users", userInfo);
+
       setUser(user);
       updateUserProfile({
         displayName: name,
@@ -54,14 +50,27 @@ export default function Register() {
           profilePic ||
           "https://img.icons8.com/?size=100&id=jF8g9G3v7KE6&format=png&color=000000",
       });
-    
+      Swal.fire({
+        title: "acoount created Successfully",
+        icon: "success",
+        draggable: true,
+      });
       navigate("/");
     });
   };
   const handleGoogleLogin = () => {
     signInWithGoogle()
-      .then((result) => {
+      .then(async (result) => {
         setUser(result.user);
+        const userInfo = {
+          email: result.user.email,
+          name: result.user.displayName,
+          creationTime: result.user?.metadata?.creationTime,
+          lastSignInTime: result.user?.metadata?.lastSignInTime,
+        };
+        const userRes = await axiosSecure.post("/users", userInfo);
+        console.log(userRes);
+        
         navigate("/");
       })
       .catch((error) => {

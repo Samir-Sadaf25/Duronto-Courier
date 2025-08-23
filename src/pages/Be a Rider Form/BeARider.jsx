@@ -1,56 +1,79 @@
 // src/components/BeARider.jsx
 import React, { useMemo } from "react";
 import { useForm } from "react-hook-form";
-
-// All your region/district data in one JSON
+import { useNavigate } from "react-router";
+import Swal from "sweetalert2"; 
 import districts from "../Covarage/districts.json";
-
+import UseAxiosSecure from "../../Hooks/UseAxiosSecure";
 
 export default function BeARider() {
   const {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm();
 
-  // Watch the region field to dynamically update warehouses
+  const navigate = useNavigate();
+  const axiosSecure = UseAxiosSecure();
+  // Watch region to update warehouses
   const selectedRegion = watch("region");
 
-  // Memoize unique region list
-  const regionOptions = useMemo(() => {
-    return Array.from(new Set(districts.map((d) => d.region)));
-  }, []);
+  // Unique region list
+  const regionOptions = useMemo(
+    () => Array.from(new Set(districts.map((d) => d.region))),
+    []
+  );
 
-  // Memoize covered_area list for the selected region
+  // Covered areas for selected region
   const warehouseOptions = useMemo(() => {
     if (!selectedRegion) return [];
-    // collect all covered_area arrays for objects matching selectedRegion
     const areas = districts
       .filter((d) => d.region === selectedRegion)
       .flatMap((d) => d.covered_area);
-    // dedupe
     return Array.from(new Set(areas));
   }, [selectedRegion]);
 
-  const onSubmit = (data) => {
-    console.log("Form data:", data);
-    // TODO: POST to your backend
+  // New onSubmit: post, alert, navigate
+  const onSubmit = async (data) => {
+    try {
+      const res = await axiosSecure.post("/riders", data);
+
+      // assumes your backend returns { acknowledged: true, insertedId: "..." }
+      if (res.data.insertedId) {
+        await Swal.fire({
+          title: "Registered Seccessfully!",
+          text: "Now waiting for your approval 🚴",
+          icon: "success",
+          confirmButtonText: "Go Home",
+        });
+
+        reset();      // clear form (optional)
+        navigate("/"); // redirect to home
+      } else {
+        throw new Error("Registration failed. Please try again.");
+      }
+    } catch (err) {
+      Swal.fire({
+        title: "Error",
+        text: err.message || "Something went wrong.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    }
   };
 
   return (
     <div className="container mx-auto px-4 py-8">
-      {/* Main Heading */}
       <h1 className="text-4xl font-bold text-center">Be a Rider</h1>
       <p className="mt-2 text-center text-gray-600 max-w-2xl mx-auto">
         Enjoy fast, reliable parcel delivery with real-time tracking and zone
-        services. From personal packages to business shipments—we deliver on
-        time, every time.
+        services.
       </p>
 
-      {/* Two-column layout */}
       <div className="mt-8 flex flex-col md:flex-row items-start gap-10">
-        {/* Left: Form */}
+        {/* Form */}
         <div className="w-full md:w-1/2 bg-white p-6 rounded-lg shadow">
           <h2 className="text-2xl font-semibold mb-4">
             Tell us about yourself
@@ -114,7 +137,7 @@ export default function BeARider() {
               )}
             </div>
 
-            {/* Region Select */}
+            {/* Region */}
             <div>
               <label className="block mb-1 font-medium">Your Region</label>
               <select
@@ -135,7 +158,7 @@ export default function BeARider() {
               )}
             </div>
 
-            {/* Warehouse (covered_area) Select */}
+            {/* Warehouse */}
             <div>
               <label className="block mb-1 font-medium">
                 Which warehouse would you like to work?
@@ -165,7 +188,7 @@ export default function BeARider() {
               )}
             </div>
 
-            {/* NID No */}
+            {/* NID */}
             <div>
               <label className="block mb-1 font-medium">NID No</label>
               <input
@@ -187,10 +210,7 @@ export default function BeARider() {
                 type="tel"
                 {...register("contact", {
                   required: "Contact is required",
-                  pattern: {
-                    value: /^[0-9]{10,15}$/,
-                    message: "Invalid phone number",
-                  },
+                 
                 })}
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:ring"
                 placeholder="e.g. 01712345678"
@@ -202,7 +222,7 @@ export default function BeARider() {
               )}
             </div>
 
-            {/* Submit Button */}
+            {/* Submit */}
             <div className="mt-6">
               <button
                 type="submit"
@@ -214,10 +234,10 @@ export default function BeARider() {
           </form>
         </div>
 
-        {/* Right: Illustration */}
+        {/* Illustration */}
         <div className="w-full md:w-1/2">
           <img
-            src="/src/assets/agent-pending.png" // swap in your image path
+            src="/src/assets/agent-pending.png"
             alt="Delivery Rider"
             className="w-full h-auto rounded-lg shadow"
           />

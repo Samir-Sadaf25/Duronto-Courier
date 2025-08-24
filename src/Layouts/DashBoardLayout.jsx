@@ -8,6 +8,8 @@ import {
   FiLogOut,
 } from 'react-icons/fi';
 import { FaHistory } from 'react-icons/fa';
+import { GrStatusGood } from 'react-icons/gr';
+import { MdPendingActions } from 'react-icons/md';
 
 export default function DashBoardLayout() {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,7 +18,8 @@ export default function DashBoardLayout() {
     { name: 'Home', to: '/', icon: <FiHome /> },
     { name: 'Bookings', to: '/dashboard/bookings', icon: <FiPackage /> },
     { name: 'Payments', to: '/dashboard/payments', icon: <FaHistory /> },
-    { name: 'Users', to: '/dashboard/users', icon: <FiUsers /> },
+    { name: 'Active Riders', to: '/dashboard/activeRiders', icon: <GrStatusGood /> },
+    { name: 'Pending Riders', to: '/dashboard/pendingRiders', icon: <MdPendingActions /> },
   ];
 
   return (

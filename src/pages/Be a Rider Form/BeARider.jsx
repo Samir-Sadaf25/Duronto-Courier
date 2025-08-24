@@ -43,7 +43,7 @@ export default function BeARider() {
       // assumes your backend returns { acknowledged: true, insertedId: "..." }
       if (res.data.insertedId) {
         await Swal.fire({
-          title: "Registered Seccessfully!",
+          title: "Aplication Submitted Seccessfully!",
           text: "Now waiting for your approval 🚴",
           icon: "success",
           confirmButtonText: "Go Home",

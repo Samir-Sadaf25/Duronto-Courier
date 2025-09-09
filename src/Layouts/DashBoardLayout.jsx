@@ -16,7 +16,7 @@ export default function DashBoardLayout() {
 
   const navItems = [
     { name: 'Home', to: '/', icon: <FiHome /> },
-    { name: 'Bookings', to: '/dashboard/bookings', icon: <FiPackage /> },
+    { name: 'Bookings', to: '/dashboard', icon: <FiPackage /> },
     { name: 'Payments', to: '/dashboard/payments', icon: <FaHistory /> },
     { name: 'Active Riders', to: '/dashboard/activeRiders', icon: <GrStatusGood /> },
     { name: 'Pending Riders', to: '/dashboard/pendingRiders', icon: <MdPendingActions /> },

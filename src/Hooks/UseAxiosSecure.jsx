@@ -1,20 +1,29 @@
+// src/hooks/useAxiosSecure.jsx
 import axios from "axios";
-import React, { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../Contexts & Providers/AuthContext & Provider/AuthContext";
+
+
 const axiosSecure = axios.create({
   baseURL: "http://localhost:3000",
 });
-const UseAxiosSecure = () => {
+
+export default function useAxiosSecure() {
   const { user } = useContext(AuthContext);
-  axiosSecure.interceptors.request.use((config) => {
-    //const token = localStorage.getItem("access-token");
 
-    config.headers.Authorization = `Bearer ${user.accessToken}`;
-
-    return config;
-  });
+  useEffect(() => {
+    const id = axiosSecure.interceptors.request.use(
+      async (config) => {
+        if (user?.getIdToken) {
+          const token = await user.getIdToken();
+          config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+      },
+      (err) => Promise.reject(err)
+    );
+    return () => axiosSecure.interceptors.request.eject(id);
+  }, [user]);
 
   return axiosSecure;
-};
-
-export default UseAxiosSecure;
+}

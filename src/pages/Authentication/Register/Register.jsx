@@ -6,8 +6,8 @@ import { Link, useNavigate } from "react-router";
 
 import axios from "axios";
 import { AuthContext } from "../../../Contexts & Providers/AuthContext & Provider/AuthContext";
-import UseAxiosSecure from "../../../Hooks/UseAxiosSecure";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../../Hooks/UseAxiosSecure";
 
 export default function Register() {
   const { createUser, updateUserProfile, setUser, signInWithGoogle } =
@@ -16,7 +16,7 @@ export default function Register() {
   const [error, setError] = useState("");
   const [profilePic, setProfilePic] = useState("");
   const { register, handleSubmit } = useForm();
-  const axiosSecure = UseAxiosSecure();
+  const axiosSecure = useAxiosSecure();
   const uploadImage = async (e) => {
     const image = e.target.files[0];
     const formData = new FormData();
@@ -27,37 +27,36 @@ export default function Register() {
     );
     setProfilePic(res.data.data.display_url);
   };
+   const onSubmit = async (data) => {
+  const { email, password, name } = data;
+  
+  try {
+    const { user: fbUser } = await createUser(email, password);
 
-  const onSubmit = async (data) => {
-    const email = data.email;
-    const password = data.password;
-    const name = data.name;
+    // 1) Prime the context so our interceptor has a valid user
+    setUser(fbUser);
+    await updateUserProfile({ displayName: name, photoURL: profilePic });
 
-    createUser(email, password).then(async (result) => {
-      const user = result.user;
-      const userInfo = {
-        email,
-        name,
-        creationTime: result.user?.metadata?.creationTime,
-        lastSignInTime: result.user?.metadata?.lastSignInTime,
-      };
-      const userRes = await axiosSecure.post("/users", userInfo);
+    // 2) Re-create userInfo here
+    const userInfo = {
+      email: fbUser.email,
+      name,
+      creationTime: fbUser.metadata.creationTime,
+      lastSignInTime: fbUser.metadata.lastSignInTime
+    };
 
-      setUser(user);
-      updateUserProfile({
-        displayName: name,
-        photoURL:
-          profilePic ||
-          "https://img.icons8.com/?size=100&id=jF8g9G3v7KE6&format=png&color=000000",
-      });
-      Swal.fire({
-        title: "acoount created Successfully",
-        icon: "success",
-        draggable: true,
-      });
-      navigate("/");
-    });
-  };
+    // 3) Send it to your /users endpoint
+    const userRes = await axiosSecure.post("/users", userInfo);
+
+    Swal.fire("Account created!", "", "success");
+    navigate("/");
+  } catch (err) {
+    console.error(err);
+    Swal.fire("Error", err.message || "Registration failed", "error");
+  }
+};
+
+  
   const handleGoogleLogin = () => {
     signInWithGoogle()
       .then(async (result) => {

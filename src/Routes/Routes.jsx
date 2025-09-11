@@ -16,6 +16,8 @@ import PaymentHistory from "../pages/Dashboard/Payment History/PaymentHistory";
 import BeARider from "../pages/Be a Rider Form/BeARider";
 import PendingRiders from "../pages/Dashboard/Pending Riders/PendingRiders";
 import ActiveRiders from "../pages/Dashboard/Active Riders/ActiveRiders";
+import Unauthorized from "../pages/UnAuthorized/Unauthorized";
+import RoleProtected from "../Components/Role Protected/RoleProtected";
 
 export const router = createBrowserRouter([
   {
@@ -56,30 +58,64 @@ export const router = createBrowserRouter([
     ],
   },
   //dashboard routes
+   {
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <DashBoardLayout />
+      </PrivateRoute>
+    ),
+    children: [
+      // 1) Default user dashboard
+      {
+        index: true,
+        Component: MyParcels,
+      },
+      {
+        path: "payment/:id",
+        Component: Payment,
+      },
+      {
+        path: "payments",
+        Component: PaymentHistory,
+      },
+
+      // 2) Rider-only pages
+      {
+        element: <RoleProtected requiredRole="rider" />,
+        children: [
+          {
+            path: "become-rider",
+            Component: BeARider,
+          },
+          {
+            path: "assigned-parcels", // example
+            Component: PendingRiders,  // or your rider task list
+          },
+        ],
+      },
+
+      // 3) Admin-only pages
+      {
+        element: <RoleProtected requiredRole="admin" />,
+        children: [
+          {
+            path: "pendingRiders",
+            Component: PendingRiders,
+          },
+          {
+            path: "activeRiders",
+            Component: ActiveRiders,
+          },
+          // you can add more admin features here…
+        ],
+      },
+    ],
+  },
+
+  // catch-all for forbidden access
   {
-      path: "/dashboard",
-      element: <PrivateRoute><DashBoardLayout></DashBoardLayout></PrivateRoute>,
-      children:[
-         {
-            index: true,
-            Component:MyParcels,
-         },
-         {
-            path: 'payment/:id',
-            Component:Payment,
-         },
-         {
-            path: 'payments',
-            Component:PaymentHistory,
-         },
-         {
-            path: 'pendingRiders',
-            Component:PendingRiders,
-         },
-         {
-            path: 'activeRiders',
-            Component:ActiveRiders,
-         },
-      ]
+    path: "/unauthorized",
+    Component: Unauthorized,
   },
 ]);

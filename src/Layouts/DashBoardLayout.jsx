@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink, Outlet } from 'react-router';
+import { Link, NavLink, Outlet } from 'react-router';
 import {
   FiMenu,
   FiHome,
@@ -22,16 +22,28 @@ export default function DashBoardLayout() {
 
   // full nav config with allowed roles
   const navConfig = [
-    { name: "Home", to: "/", icon: <FiHome />, roles: ["user","rider","admin"] },
-    { name: "Bookings", to: "/dashboard", icon: <FiPackage />, roles: ["user","rider","admin"] },
-    { name: "Payments", to: "/dashboard/payments", icon: <FaHistory />, roles: ["user","rider","admin"] },
-    { name: "Be A Rider", to: "/dashboard/become-rider", icon: <MdPendingActions />, roles: ["user"] },
-    { name: "Assigned Parcels", to: "/dashboard/assigned-parcels", icon: <GrStatusGood />, roles: ["rider"] },
-    { name: "Pending Riders", to: "/dashboard/pendingRiders", icon: <MdPendingActions />, roles: ["admin"] },
-    { name: "Active Riders", to: "/dashboard/activeRiders", icon: <GrStatusGood />, roles: ["admin"] },
-    { name: "Admin Home", to: "/dashboard/admin", icon: <FiHome />, roles: ["admin"] },
-  ];
+  // … user & rider links …
 
+  // admin-only
+  {
+    name: "Admin Home",
+    to: "/dashboard/admin",
+    roles: ["admin"],
+    icon: <FiHome />,
+  },
+  {
+    name: "Pending Riders",
+    to: "/dashboard/admin/pendingRiders",
+    roles: ["admin"],
+    icon: <MdPendingActions />,
+  },
+  {
+    name: "Active Riders",
+    to: "/dashboard/admin/activeRiders",
+    roles: ["admin"],
+    icon: <GrStatusGood />,
+  },
+];
   // filter by the current user’s role
   const navItems = navConfig.filter(item => item.roles.includes(userInfo.role));
 
@@ -46,7 +58,9 @@ export default function DashBoardLayout() {
         `}
       >
         <div className="flex items-center justify-between p-4 border-b">
+          <Link to={"/"}>
           <h2 className="text-xl font-semibold">Dashboard</h2>
+          </Link>
           <button className="md:hidden text-2xl" onClick={() => setIsOpen(false)}>
             &times;
           </button>

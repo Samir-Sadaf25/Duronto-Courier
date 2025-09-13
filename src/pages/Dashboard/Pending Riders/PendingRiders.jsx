@@ -1,165 +1,61 @@
-// src/components/PendingRiders.jsx
-import React, { useState, useEffect } from 'react'
-import Swal from 'sweetalert2'
-import UseAxiosSecure from '../../../Hooks/UseAxiosSecure'
+import useAxiosSecure from "../../../Hooks/UseAxiosSecure";
+import usePendingRiders from "../../../Hooks/usePendingRiders";
 
 export default function PendingRiders() {
-  const [riders, setRiders] = useState([])
-  const [selected, setSelected] = useState(null)
-  const [modalOpen, setModalOpen] = useState(false)
-  const axiosSecure = UseAxiosSecure();
-  // 1. Fetch pending riders
-  const fetchRiders = async () => {
+  const { riders, loading } = usePendingRiders();
+  const axiosSecure = useAxiosSecure();
+
+  const handleUpdate = async (id, newStatus) => {
     try {
-      const res = await axiosSecure.get('/riders?status=pending')
-      setRiders(res.data)
+      await axiosSecure.patch(`/riders/${id}`, { status: newStatus });
+      // Optimally you'd update state, but for simplicity:
+      window.location.reload();
     } catch (err) {
-      console.error(err)
-      Swal.fire('Error', 'Could not load pending riders', 'error')
+      console.error("Failed to update rider status", err);
     }
+  };
+
+  if (loading) {
+    return <div className="p-6 text-center">Loading pending riders…</div>;
   }
 
-  useEffect(() => {
-    fetchRiders()
-  }, [])
-
-  // 2. Handlers
-  const handleView = (rider) => {
-    setSelected(rider)
-    setModalOpen(true)
+  if (riders.length === 0) {
+    return <div className="p-6 text-center">No pending riders.</div>;
   }
 
-  const handleClose = () => {
-    setModalOpen(false)
-    setSelected(null)
-  }
-
-  const handleApprove = async (id) => {
-    const result = await Swal.fire({
-      title: 'Approve this rider?',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, approve',
-    })
-    if (!result.isConfirmed) return
-
-    try {
-      await axiosSecure.patch(`/riders/${id}`, { status: 'active' })
-      Swal.fire('Approved!', 'Rider is now active.', 'success')
-      fetchRiders()
-    } catch (err) {
-      console.error(err)
-      Swal.fire('Error', 'Failed to approve rider', 'error')
-    }
-  }
-
-  const handleReject = async (id) => {
-    const result = await Swal.fire({
-      title: 'Reject this application?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, reject',
-    })
-    if (!result.isConfirmed) return
-
-    try {
-      await axiosSecure.delete(`/riders/${id}`)
-      Swal.fire('Rejected', 'Application has been removed.', 'success')
-      fetchRiders()
-    } catch (err) {
-      console.error(err)
-      Swal.fire('Error', 'Failed to reject rider', 'error')
-    }
-  }
-
-  // 3. Render
   return (
-    <div className="p-6 bg-white rounded shadow-md">
-      <h2 className="text-2xl font-semibold mb-4">Pending Riders</h2>
-
-      <div className="overflow-x-auto">
-        <table className="min-w-full table-auto border-collapse">
-          <thead>
-            <tr className="bg-gray-100">
-              {['Name','Email','Region','Warehouse','Actions'].map((h) => (
-                <th key={h} className="px-4 py-2 text-left text-sm font-medium">
-                  {h}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {riders.map((r) => (
-              <tr key={r._id} className="border-b">
-                <td className="px-4 py-2">{r.name}</td>
-                <td className="px-4 py-2">{r.email}</td>
-                <td className="px-4 py-2">{r.region}</td>
-                <td className="px-4 py-2">{r.warehouse}</td>
-                <td className="px-4 py-2 space-x-2">
-                  <button
-                    onClick={() => handleView(r)}
-                    className="text-blue-600 hover:underline"
-                  >
-                    View
-                  </button>
-                  <button
-                    onClick={() => handleApprove(r._id)}
-                    className="text-green-600 hover:underline"
-                  >
-                    Approve
-                  </button>
-                  <button
-                    onClick={() => handleReject(r._id)}
-                    className="text-red-600 hover:underline"
-                  >
-                    Reject
-                  </button>
-                </td>
-              </tr>
-            ))}
-            {riders.length === 0 && (
-              <tr>
-                <td colSpan="5" className="p-4 text-center text-gray-500">
-                  No pending riders.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-
-      {/* 4. Modal for rider details */}
-      {modalOpen && selected && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
-          onClick={handleClose}
-        >
-          <div
-            className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h3 className="text-xl font-semibold mb-3">Rider Details</h3>
-            <ul className="space-y-2 text-sm">
-              <li><strong>Name:</strong> {selected.name}</li>
-              <li><strong>Age:</strong> {selected.age}</li>
-              <li><strong>Email:</strong> {selected.email}</li>
-              <li><strong>Region:</strong> {selected.region}</li>
-              <li><strong>Warehouse:</strong> {selected.warehouse}</li>
-              <li><strong>NID:</strong> {selected.nid}</li>
-              <li><strong>Contact:</strong> {selected.contact}</li>
-              <li><strong>Status:</strong> {selected.status}</li>
-            </ul>
-            <div className="mt-4 text-right">
+    <table className="min-w-full bg-white shadow rounded">
+      <thead className="bg-gray-100">
+        <tr>
+          <th className="p-2">Name</th>
+          <th className="p-2">Email</th>
+          <th className="p-2">Applied At</th>
+          <th className="p-2">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {riders.map((r) => (
+          <tr key={r._id} className="border-b">
+            <td className="p-2">{r.name}</td>
+            <td className="p-2">{r.email}</td>
+            <td className="p-2">{new Date(r.createdAt).toLocaleString()}</td>
+            <td className="p-2 space-x-2">
               <button
-                onClick={handleClose}
-                className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+                onClick={() => handleUpdate(r._id, "active")}
+                className="px-3 py-1 bg-green-500 text-white rounded"
               >
-                Close
+                Approve
               </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  )
+              <button
+                onClick={() => handleUpdate(r._id, "rejected")}
+                className="px-3 py-1 bg-red-500 text-white rounded"
+              >
+                Reject
+              </button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
 }

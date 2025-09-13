@@ -75,57 +75,41 @@ export const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
-      // 1) Default user dashboard
+      // user routes …
       {
         index: true,
         Component: MyParcels,
       },
-      {
-        path: "payment/:id",
-        Component: Payment,
-      },
-      {
-        path: "payments",
-        Component: PaymentHistory,
-      },
+      { path: "payment/:id", Component: Payment },
+      { path: "payments", Component: PaymentHistory },
 
-      // 2) Rider-only pages
+      // rider routes …
       {
         element: <RoleProtected requiredRole="rider" />,
         children: [
-          {
-            path: "become-rider",
-            Component: BeARider,
-          },
-          {
-            path: "assigned-parcels", // example
-            Component: PendingRiders, // or your rider task list
-          },
+          { path: "become-rider", Component: BeARider },
+          { path: "assigned-parcels", Component: PendingRiders },
         ],
       },
 
-      // 3) Admin-only pages
+      // ── Admin routes under “admin” ──
       {
+        path: "admin",
         element: <RoleProtected requiredRole="admin" />,
         children: [
-          // This is your new “admin home” route
-          {
-            path: "admin",
-            Component: AdminDashboard,
-          },
-          {
-            path: "pendingRiders",
-            Component: PendingRiders,
-          },
-          {
-            path: "activeRiders",
-            Component: ActiveRiders,
-          },
-          // …more admin routes here…
+          // GET /dashboard/admin
+          { index: true, Component: AdminDashboard },
+
+          // GET /dashboard/admin/pendingRiders
+          { path: "pendingRiders", Component: PendingRiders },
+
+          // GET /dashboard/admin/activeRiders
+          { path: "activeRiders", Component: ActiveRiders },
         ],
       },
     ],
   },
+
 
   // catch-all for forbidden access
   {

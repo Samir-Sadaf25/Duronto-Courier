@@ -18,6 +18,7 @@ import PendingRiders from "../pages/Dashboard/Pending Riders/PendingRiders";
 import ActiveRiders from "../pages/Dashboard/Active Riders/ActiveRiders";
 import Unauthorized from "../pages/UnAuthorized/Unauthorized";
 import RoleProtected from "../Components/Role Protected/RoleProtected";
+import AdminDashboard from "../pages/Dashboard/Admin Dashboard/AdminDashboard";
 
 export const router = createBrowserRouter([
   {
@@ -29,16 +30,24 @@ export const router = createBrowserRouter([
         Component: Home,
       },
       {
-        path:'coverage',
-        Component:Coverage
+        path: "coverage",
+        Component: Coverage,
       },
       {
-         path:'BeARider',
-         element:<PrivateRoute><BeARider></BeARider></PrivateRoute>
+        path: "BeARider",
+        element: (
+          <PrivateRoute>
+            <BeARider></BeARider>
+          </PrivateRoute>
+        ),
       },
       {
-        path:'add-parcel',
-        element:<PrivateRoute><BookingParcel></BookingParcel></PrivateRoute>
+        path: "add-parcel",
+        element: (
+          <PrivateRoute>
+            <BookingParcel></BookingParcel>
+          </PrivateRoute>
+        ),
       },
     ],
   },
@@ -58,7 +67,7 @@ export const router = createBrowserRouter([
     ],
   },
   //dashboard routes
-   {
+  {
     path: "/dashboard",
     element: (
       <PrivateRoute>
@@ -90,7 +99,7 @@ export const router = createBrowserRouter([
           },
           {
             path: "assigned-parcels", // example
-            Component: PendingRiders,  // or your rider task list
+            Component: PendingRiders, // or your rider task list
           },
         ],
       },
@@ -99,6 +108,11 @@ export const router = createBrowserRouter([
       {
         element: <RoleProtected requiredRole="admin" />,
         children: [
+          // This is your new “admin home” route
+          {
+            path: "admin",
+            Component: AdminDashboard,
+          },
           {
             path: "pendingRiders",
             Component: PendingRiders,
@@ -107,7 +121,7 @@ export const router = createBrowserRouter([
             path: "activeRiders",
             Component: ActiveRiders,
           },
-          // you can add more admin features here…
+          // …more admin routes here…
         ],
       },
     ],

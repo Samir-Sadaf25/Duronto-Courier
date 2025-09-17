@@ -19,6 +19,8 @@ import ActiveRiders from "../pages/Dashboard/Active Riders/ActiveRiders";
 import Unauthorized from "../pages/UnAuthorized/Unauthorized";
 import RoleProtected from "../Components/Role Protected/RoleProtected";
 import AdminDashboard from "../pages/Dashboard/Admin Dashboard/AdminDashboard";
+import ParcelAssignment from "../pages/Dashboard/Parcel Assignment/ParcelAssignment";
+import AssignedParcels from "../pages/Dashboard/Assigned Parcels/AssignedParcels";
 
 export const router = createBrowserRouter([
   {
@@ -89,6 +91,13 @@ export const router = createBrowserRouter([
         children: [
           { path: "become-rider", Component: BeARider },
           { path: "assigned-parcels", Component: PendingRiders },
+          {
+            element: <RoleProtected requiredRole="rider" />,
+            children: [
+              { path: "assigned-parcels", Component: AssignedParcels },
+              // …other rider routes…
+            ],
+          },
         ],
       },
 
@@ -97,19 +106,15 @@ export const router = createBrowserRouter([
         path: "admin",
         element: <RoleProtected requiredRole="admin" />,
         children: [
-          // GET /dashboard/admin
           { index: true, Component: AdminDashboard },
-
-          // GET /dashboard/admin/pendingRiders
           { path: "pendingRiders", Component: PendingRiders },
-
-          // GET /dashboard/admin/activeRiders
           { path: "activeRiders", Component: ActiveRiders },
+          // new parcel assignment route
+          { path: "assign-parcels", Component: ParcelAssignment },
         ],
       },
     ],
   },
-
 
   // catch-all for forbidden access
   {

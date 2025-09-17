@@ -4,7 +4,8 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2"; 
 import districts from "../Covarage/districts.json";
-import UseAxiosSecure from "../../Hooks/UseAxiosSecure";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+
 
 export default function BeARider() {
   const {
@@ -16,7 +17,7 @@ export default function BeARider() {
   } = useForm();
 
   const navigate = useNavigate();
-  const axiosSecure = UseAxiosSecure();
+  const axiosSecure = useAxiosSecure();
   // Watch region to update warehouses
   const selectedRegion = watch("region");
 

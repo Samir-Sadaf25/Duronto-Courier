@@ -2,7 +2,7 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import UseAxiosSecure from "../../../Hooks/UseAxiosSecure";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { AuthContext } from "../../../Contexts & Providers/AuthContext & Provider/AuthContext";
 import Swal from "sweetalert2";
 
@@ -11,7 +11,7 @@ const CheckoutForm = () => {
   const elements = useElements();
   const { id } = useParams();         // parcelId
   const navigate = useNavigate();
-  const axiosSecure = UseAxiosSecure();
+  const axiosSecure = useAxiosSecure();
   const { user } = useContext(AuthContext);
   const queryClient = useQueryClient();
 

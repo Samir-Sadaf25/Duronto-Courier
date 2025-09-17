@@ -1,4 +1,4 @@
-import useAxiosSecure from "../../../Hooks/UseAxiosSecure";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import usePendingRiders from "../../../Hooks/usePendingRiders";
 
 export default function PendingRiders() {

@@ -1,5 +1,5 @@
 // src/components/Register.jsx
-import React, { use, useContext, useState } from "react";
+import React, {  useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaGoogle } from "react-icons/fa";
 import { Link, useNavigate } from "react-router";
@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router";
 import axios from "axios";
 import { AuthContext } from "../../../Contexts & Providers/AuthContext & Provider/AuthContext";
 import Swal from "sweetalert2";
-import useAxiosSecure from "../../../Hooks/UseAxiosSecure";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 export default function Register() {
   const { createUser, updateUserProfile, setUser, signInWithGoogle } =

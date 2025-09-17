@@ -2,7 +2,7 @@
 import React, { useContext } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AuthContext } from "../../../Contexts & Providers/AuthContext & Provider/AuthContext";
-import useAxiosSecure from "../../../Hooks/UseAxiosSecure";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { useNavigate } from "react-router";
 
 export default function MyParcels() {

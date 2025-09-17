@@ -1,18 +1,16 @@
-// src/hooks/usePendingRiders.jsx
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import useAxiosSecure from "./useAxiosSecure";
 
-
-export default function usePendingRiders() {
+export default function useActiveRiders() {
   const axiosSecure = useAxiosSecure();
   const [riders, setRiders] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axiosSecure
-      .get("/riders?status=pending")
-      .then(res => setRiders(res.data))
-      .catch(err => console.error("Failed to load pending riders", err))
+      .get("/riders?status=active")
+      .then((res) => setRiders(res.data))
+      .catch((err) => console.error("Failed to load active riders", err))
       .finally(() => setLoading(false));
   }, [axiosSecure]);
 

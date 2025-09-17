@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../Contexts & Providers/AuthContext & Provider/AuthContext";
-import useAxiosSecure from "./UseAxiosSecure";
+import useAxiosSecure from "./useAxiosSecure";
 
 export default function useUserInfo() {
   const { user } = useContext(AuthContext);

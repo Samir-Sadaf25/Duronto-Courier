@@ -5,8 +5,9 @@ import { useForm, Controller } from "react-hook-form";
 import Swal from "sweetalert2";
 import districts from "../Covarage/districts.json";
 import { AuthContext } from "../../Contexts & Providers/AuthContext & Provider/AuthContext";
-import UseAxiosSecure from "../../Hooks/UseAxiosSecure";
+
 import axios from "axios";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 // Helper: get unique regions
 const regionOptions = Array.from(new Set(districts.map((d) => d.region)));
@@ -361,7 +362,7 @@ const ReceiverInfo = ({ control, watch }) => {
 function BookingParcel() {
   // Get user from AuthContext
   const { user } = useContext(AuthContext);
-  const axiosSecure = UseAxiosSecure();
+  const axiosSecure = useAxiosSecure();
   const {
     handleSubmit,
     control,

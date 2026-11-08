@@ -2,7 +2,7 @@
 
 A full-stack courier-service application built to connect customers, delivery riders, and administrators in one parcel-management workflow. The project pairs a React/Vite frontend with a Node.js/Express API, MongoDB persistence, Firebase Authentication, and Stripe payment processing.
 
-**Portfolio project by [Samir Sadaf](https://github.com/Samir-Sadaf25)** · [Frontend repository](https://github.com/Samir-Sadaf25/Duronto-Courier) · [Backend repository](https://github.com/Samir-Sadaf25/DurontoCourier-server)
+**P** [Backend repository](https://github.com/Samir-Sadaf25/DurontoCourier-server)
 
 ## Project highlights
 
